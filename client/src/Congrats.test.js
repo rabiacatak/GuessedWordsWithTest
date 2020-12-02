@@ -1,12 +1,13 @@
 import React from 'react';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
 import Enzyme , {shallow} from "enzyme";
-import {findByTestAttr} from "../../test/testUtils";
+import {findByTestAttr,checkProps} from "../../test/testUtils";
 import Congrats from "./Congrats";
+import checkPropTypes  from 'check-prrop-types';
 
 Enzyme.configure({adapter: new EnzymeAdapter()});
 
-
+const defaultProps={success:false}
 
 // setup enzyme React Adapter
 /**
@@ -17,7 +18,8 @@ Enzyme.configure({adapter: new EnzymeAdapter()});
 const setup=(props={})=>{
   //also we can achive the props like that
   //props={success:true}
-  return shallow(<Congrats {...props}/>)
+  const setupProps={...defaultProps,...props}
+  return shallow(<Congrats {...setupProps}/>)
 }
 
 test('renders without error', () => {
@@ -39,5 +41,10 @@ test('renders non empty congrats message when success props is true', () => {
   expect(message.text().length).toBe(0)
 
 
+});
+
+test('does not throw error when expecting warnings', () => {
+  const expectedProps=setup({success:false});
+  checkProps(Congrats,expectedProps)
 });
 
