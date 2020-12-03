@@ -36,6 +36,28 @@ describe('If there are no words guests',()=>{
 
 });
 describe('If there are  words guests',()=>{
+  let wrapper;
+  const guessedWords=[
+    {guessedWord:'train',letterMatchCount:3},
+    {guessedWord:'agile',letterMatchCount:1},
+    {guessedWord:'party',letterMatchCount:5}
+  ];
+  beforeEach(()=>{
+    wrapper=setup({guessedWords: []})
+  });
+  test('render without error',()=>{
+    const guessedWordsNode=findByTestAttr(wrapper,'componentGuessedWords')
+    expect(guessedWordsNode.length).toBe(1)
+  });
 
+  test('renders guessed words section',()=>{
+    const guessedWordNodes=findByTestAttr(wrapper,'guessedWords')
+    expect(guessedWordNodes.length).toBe(guessedWords.length)
+
+  });
+  test('correct number of guessed words',()=>{
+    const component=findByTestAttr(wrapper,'guessedWord')
+    expect(component.length).toBe(1)
+  });
 })
 
